@@ -50,7 +50,11 @@ func addTestHook(mu uc.Unicorn) {
 		insn, _ := mu.MemRead(pc, 4)
 		b1 := bytetoBit(insn[0])
 		op := b1[:6]
-		buffer.WriteString(fmt.Sprintf("Syscall: op: %v insn:%b\n", op, insn))
+		var _b [4][8]uint8
+		for i, b := range insn {
+			_b[i] = bytetoBit(b)
+		}
+		buffer.WriteString(fmt.Sprintf("Syscall: op: %v insn:%v\n", op, _b))
 		buffer.Flush()
 	}, 0, 0x80000000)
 }
